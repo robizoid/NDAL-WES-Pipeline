@@ -1,0 +1,12 @@
+pipeline_settings:
+  output_directory: "~/output_genomics_pipeline"
+
+reference_genome:
+  grch37: "/path/to/read1.fastq.gz"
+  grch38: "/kuttam_fg/refdata/robin/references/Homo_sapiens/GATK/GRCh38/Sequence/WholeGenomeFasta/Homo_sapiens_assembly38.fasta"
+
+gatk_ressources:
+  known_sites:
+    dbsnp: "/kuttam_fg/refdata/robin/references/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/dbsnp_146.hg38.vcf.gz"
+    omni1000: "/kuttam_fg/refdata/robin/references/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/1000G_omni2.5.hg38.vcf.gz"
+    mills_indels: "/kuttam_fg/refdata/robin/references/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz"
