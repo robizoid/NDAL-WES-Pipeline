@@ -2,7 +2,7 @@ import os
 import subprocess
 import argparse
 import pandas as pd
-from main_new import main  
+from main import main  
 
 def run_pipeline_for_cohort(tsv_file, config):
     # Read the TSV file
