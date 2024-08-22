@@ -22,8 +22,13 @@ patterns_to_delete=(
     "${OUTPUT_DIR}/**/${SAMPLEID}.sorted.bam"
     "${OUTPUT_DIR}/**/${SAMPLEID}.sorted.bam.bai"
     "${OUTPUT_DIR}/**/${SAMPLEID}.fixed.bam"
+    "${OUTPUT_DIR}/**/${SAMPLEID}.fixed.bam.bai"
     "${OUTPUT_DIR}/**/${SAMPLEID}.filtered.bam"
     "${OUTPUT_DIR}/**/${SAMPLEID}.filtered.bam.bai"
+    "${OUTPUT_DIR}/**/${SAMPLEID}.recalibrated.bam"
+    "${OUTPUT_DIR}/**/${SAMPLEID}.recalibrated.bai"
+    "${OUTPUT_DIR}/**/${SAMPLEID}.rmdup.bam"
+    "${OUTPUT_DIR}/**/${SAMPLEID}.rmdup.bam.bai"
 )
 
 # Loop over each pattern and delete the matching files
