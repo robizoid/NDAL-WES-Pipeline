@@ -42,3 +42,6 @@ modules_resources:
     bamqc:
       cpus: 4
       mem: 16
+    mosdepth:
+      cpus: 12
+      mem: 16
