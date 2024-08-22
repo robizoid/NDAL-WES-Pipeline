@@ -1,8 +1,25 @@
 import os
+import time
 import subprocess
 import argparse
 import pandas as pd
 from main import main  
+
+def wait_for_job_completion(job_id):
+    """Wait for the SLURM job with job_id to complete."""
+    while True:
+        result = subprocess.run(
+            ["squeue", "--job", job_id],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+        
+        if job_id not in result.stdout.decode():
+            break
+        
+        print(f"Waiting for job {job_id} to complete...")
+        time.sleep(60)  # Check every minute
+
 
 def run_pipeline_for_cohort(tsv_file, config):
     # Read the TSV file
@@ -34,12 +51,17 @@ def run_pipeline_for_cohort(tsv_file, config):
         # Run the pipeline
         job_id = main(args)
 
-        # Update last_job_id for dependency
-        last_job_id = job_id if job_id else last_job_id
+        # Run the pipeline
+        last_job_id = main(args)
+
+        # Wait for the last job to finish before proceeding
+        if last_job_id:
+            wait_for_job_completion(last_job_id)
 
         print(f"Pipeline finished for sample: {sampleid}")
         print("--------------------------------------")
-
+        
+        
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run the cohort genomics pipeline.")
     parser.add_argument("--tsv", required=True, help="Path to the TSV file with sample information")
