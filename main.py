@@ -287,6 +287,26 @@ def main(args):
       log_message(f"GATK-BAMQC job submitted with ID: {bamqc_job}")
     else:
       log_message("GATK-BAMQC job submission failed")
+    
+    # Step 13Bis: Collect Depth information from BAM files - Mosdepth
+    log_message("Initiating BAM QC depth - Mosdepth")
+    output_dir = os.path.join(main_output_dir, "qc")
+    input_dir = os.path.join(main_output_dir, "bam_preprocessing")
+    cpus, mem = get_resources(config, "mosdepth")
+    mosdepth_module = os.path.join(script_dir, "modules_slurm/qc/Mosdepth.sbatch")
+    mosdepth_job = submit_job(
+            mosdepth_module,
+            export=f"INPUT_FOLDER={input_dir},SAMPLEID={sampleid},OUTPUT_DIR={output_dir},TARGETS={kit},CPUS={cpus}",
+            output_dir=output_dir,
+            job_name="MOSDEPTH-BAMDEPTH",
+            dependency=hc_gather_job,
+            cpus=cpus,
+            mem=mem
+        )
+    if mosdepth_job:
+      log_message(f"MOSDEPTH-BAMDEPTH job submitted with ID: {mosdepth_job}")
+    else:
+      log_message("MOSDEPTH-BAMDEPTH job submission failed")
             
     # Step 14: Convert BAM to CRAM - Samtools
     log_message("Initiating Convert2Cram job 1/2 - Samtools")
@@ -329,16 +349,33 @@ def main(args):
             export=f"SAMPLEID={sampleid},OUTPUT_DIR={output_dir}",
             output_dir=output_dir,
             job_name="ERASE-BAM",
-            dependency=hc_gather_job
+            dependency=convert_cram_job
         )
     if erase_bam_job:
       log_message(f"ERASE-BAM job submitted with ID: {erase_bam_job}")
     else:
       log_message("ERASE-BAM job submission failed")
     
+    # Step 17: Generate Report - MultiQC
+    log_message("Initiating MultiQC job")
+    output_dir = os.path.join(main_output_dir, "qc")
+    input_dir = os.path.join(main_output_dir, "qc")
+    multiqc_module = os.path.join(script_dir, "modules_slurm/qc/MultiQC.sbatch")
+    multiqc_job = submit_job(
+            multiqc_module,
+            export=f"SAMPLEID={sampleid},INPUT_DIR={input_dir},OUTPUT_DIR={output_dir}",
+            output_dir=output_dir,
+            job_name="MultiQC",
+            dependency=convert_cram_job
+        )
+    if multiqc_job:
+      log_message(f"MultiQC job submitted with ID: {multiqc_job}")
+    else:
+      log_message("MultiQC job submission failed")
+
     log_message("Pipeline submission finished")
     
-    last_job_id = bamqc_job
+    last_job_id = multiqc_job
     
     return last_job_id
     
