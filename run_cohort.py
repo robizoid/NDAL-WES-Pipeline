@@ -17,9 +17,11 @@ def wait_for_job_completion(job_id):
         if job_id not in result.stdout.decode():
             break
         
-        print(f"Waiting for job {job_id} to complete...")
+        sys.stdout.write(f"\rWaiting for job {job_id} to complete...")
+        sys.stdout.flush()
         time.sleep(60)  # Check every minute
-
+    sys.stdout.write("\rJob completed.                          \n")
+    sys.stdout.flush()
 
 def run_pipeline_for_cohort(tsv_file, config):
     # Read the TSV file
@@ -60,7 +62,7 @@ def run_pipeline_for_cohort(tsv_file, config):
 
         print(f"Pipeline finished for sample: {sampleid}")
         print("--------------------------------------")
-        
+    
         
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run the cohort genomics pipeline.")

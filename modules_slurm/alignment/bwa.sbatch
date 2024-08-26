@@ -32,7 +32,7 @@ fastp -i ${READ1} -I ${READ2} --stdout --thread 2 -j "${OUTPUT_DIR}/fastp-${SLUR
 
 samtools index -@ 16 ${OUT_BAM_FILE}
 
-wait 1
+sleep 1
 
 rm -rf $TMP_DIR
 

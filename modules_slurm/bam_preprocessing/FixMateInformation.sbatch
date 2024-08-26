@@ -30,7 +30,7 @@ gatk --java-options "-Djava.io.tmpdir=$TMP_DIR -Xmx${MEM}G -XX:+UseParallelGC -X
     -I ${INPUT_BAM} \
     -O ${OUT_BAM_FILE}
     
-wait 1
+sleep 1
 
 rm -rf $TMP_DIR
 

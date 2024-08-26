@@ -37,7 +37,7 @@ for BAM_TYPE in "${!BAM_PATHS[@]}"; do
     if [ -f "$INPUT_BAM" ]; then
         echo "Processing $INPUT_BAM"
 
-        gatk --java-options "-Djava.io.tmpdir=$TMP_DIR -Xms${MEM}G -Xmx${MEM}G -XX:ParallelGCThreads=${CPUS}" CollectAlignmentSummaryMetrics \
+        gatk --java-options "-Djava.io.tmpdir=$TMP_DIR -Xmx${MEM}G -XX:ParallelGCThreads=${CPUS}" CollectAlignmentSummaryMetrics \
             -I "$INPUT_BAM" \
             -O "$OUTPUT_METRICS" \
             -R "$REFERENCE"
@@ -48,7 +48,7 @@ for BAM_TYPE in "${!BAM_PATHS[@]}"; do
     fi
 done
 
-wait 1
+sleep 1
 
 rm -rf $TMP_DIR
 

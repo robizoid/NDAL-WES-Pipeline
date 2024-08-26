@@ -317,7 +317,7 @@ def main(args):
             export=f"INPUT_BAM={recalibrated_bam},SAMPLEID={sampleid},OUTPUT_DIR={output_dir},REFERENCE={reference},BAM_TYPE=recalibrated",
             output_dir=output_dir,
             job_name="SAMTOOLS-CONVERT-CRAM",
-            dependency=bamqc_job
+            dependency=hc_gather_job
         )
     if convert_cram_job:
       log_message(f"SAMTOOLS-CONVERT-CRAM job submitted with ID: {convert_cram_job}")
@@ -328,15 +328,15 @@ def main(args):
     log_message("Initiating Convert2Cram job 2/2 - Samtools")
     output_dir = os.path.join(main_output_dir, "bam_preprocessing")
     convert_cram_module = os.path.join(script_dir, "modules_slurm/utils/Convert2CRAM.sbatch")
-    convert_cram_job = submit_job(
+    convert_cram_job_2 = submit_job(
             convert_cram_module,
             export=f"INPUT_BAM={rmdup_bam},SAMPLEID={sampleid},OUTPUT_DIR={output_dir},REFERENCE={reference},BAM_TYPE=rmdup",
             output_dir=output_dir,
             job_name="SAMTOOLS-CONVERT-CRAM",
-            dependency=bamqc_job
+            dependency=hc_gather_job
         )
-    if convert_cram_job:
-      log_message(f"SAMTOOLS-CONVERT-CRAM job submitted with ID: {convert_cram_job}")
+    if convert_cram_job_2:
+      log_message(f"SAMTOOLS-CONVERT-CRAM job submitted with ID: {convert_cram_job_2}")
     else:
       log_message("SAMTOOLS-CONVERT-CRAM job submission failed")
       
@@ -349,7 +349,7 @@ def main(args):
             export=f"SAMPLEID={sampleid},OUTPUT_DIR={output_dir}",
             output_dir=output_dir,
             job_name="ERASE-BAM",
-            dependency=convert_cram_job
+            dependency=f"{convert_cram_job}:{convert_cram_job_2}"
         )
     if erase_bam_job:
       log_message(f"ERASE-BAM job submitted with ID: {erase_bam_job}")

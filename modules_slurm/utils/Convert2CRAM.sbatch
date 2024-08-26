@@ -24,7 +24,7 @@ module load samtools
 
 samtools view -@20 -C -T ${REFERENCE} -o ${OUTPUT_CRAM} ${INPUT_BAM}
 
-wait 1
+sleep 1
 
 rm -rf $TMP_DIR
 

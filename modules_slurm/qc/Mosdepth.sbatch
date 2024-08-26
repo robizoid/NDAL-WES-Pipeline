@@ -46,7 +46,7 @@ for BAM_TYPE in "${!BAM_PATHS[@]}"; do
     fi
 done
 
-wait 1
+sleep 1
 
 END_TIMESTAMP=$(date '+%Y-%m-%d_%H-%M-%S')
 echo "Job ended at: $END_TIMESTAMP"

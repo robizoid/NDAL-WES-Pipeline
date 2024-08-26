@@ -37,8 +37,9 @@ gatk --java-options "-Djava.io.tmpdir=$TMP_DIR -Xms4G -Xmx4G -XX:ParallelGCThrea
     -L "${INTERVALS_DIR}/${INTERVAL_FILE}" \
     -O "${OUTPUT_DIR}/recal_data_${INDEX}.table"
 
-rm -rf $TMP_DIR
+sleep 1
 
+rm -rf $TMP_DIR
 
 END_TIMESTAMP=$(date '+%Y-%m-%d_%H-%M-%S')
 echo "Job ended at: $END_TIMESTAMP"
