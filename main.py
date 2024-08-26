@@ -49,7 +49,7 @@ def main(args):
             fastqc_module,
             export=f"READ1={read1},READ2={read2},OUTPUT_DIR={output_dir}",
             output_dir=output_dir,
-            job_name="QC-FASTQC"
+            job_name=f"QC-FASTQC"
         )
     if fastqc_job:
       log_message(f"FastQC job submitted with ID: {fastqc_job}")
@@ -296,7 +296,7 @@ def main(args):
     mosdepth_module = os.path.join(script_dir, "modules_slurm/qc/Mosdepth.sbatch")
     mosdepth_job = submit_job(
             mosdepth_module,
-            export=f"INPUT_FOLDER={input_dir},SAMPLEID={sampleid},OUTPUT_DIR={output_dir},TARGETS={kit},CPUS={cpus}",
+            export=f"INPUT_FOLDER={input_dir},SAMPLEID={sampleid},OUTPUT_DIR={output_dir},TARGETS={kit},CPUS={cpus},MEM={mem}",
             output_dir=output_dir,
             job_name="MOSDEPTH-BAMDEPTH",
             dependency=hc_gather_job,
