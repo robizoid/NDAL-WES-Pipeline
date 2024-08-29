@@ -269,24 +269,24 @@ def main(args):
       log_message("GATK-Gather-GVCFs job submission failed")
     
     # Step 13: Collect BAM QC metrics - GATK
-    log_message("Initiating BAM QC metrics job - GATK")
-    output_dir = os.path.join(main_output_dir, "qc")
-    input_dir = os.path.join(main_output_dir, "bam_preprocessing")
-    cpus, mem = get_resources(config, "bamqc")
-    bamqc_module = os.path.join(script_dir, "modules_slurm/qc/bamqc.sbatch")
-    bamqc_job = submit_job(
-            bamqc_module,
-            export=f"INPUT_FOLDER={input_dir},SAMPLEID={sampleid},OUTPUT_DIR={output_dir},REFERENCE={reference}",
-            output_dir=output_dir,
-            job_name="GATK-BAMQC",
-            dependency=hc_gather_job,
-            cpus=cpus,
-            mem=mem
-        )
-    if bamqc_job:
-      log_message(f"GATK-BAMQC job submitted with ID: {bamqc_job}")
-    else:
-      log_message("GATK-BAMQC job submission failed")
+    # log_message("Initiating BAM QC metrics job - GATK")
+    # output_dir = os.path.join(main_output_dir, "qc")
+    # input_dir = os.path.join(main_output_dir, "bam_preprocessing")
+    # cpus, mem = get_resources(config, "bamqc")
+    # bamqc_module = os.path.join(script_dir, "modules_slurm/qc/bamqc.sbatch")
+    # bamqc_job = submit_job(
+    #         bamqc_module,
+    #         export=f"INPUT_FOLDER={input_dir},SAMPLEID={sampleid},OUTPUT_DIR={output_dir},REFERENCE={reference},CPUS={cpus},MEM={mem}",
+    #         output_dir=output_dir,
+    #         job_name="GATK-BAMQC",
+    #         dependency=hc_gather_job,
+    #         cpus=cpus,
+    #         mem=mem
+    #     )
+    # if bamqc_job:
+    #   log_message(f"GATK-BAMQC job submitted with ID: {bamqc_job}")
+    # else:
+    #   log_message("GATK-BAMQC job submission failed")
     
     # Step 13Bis: Collect Depth information from BAM files - Mosdepth
     log_message("Initiating BAM QC depth - Mosdepth")
@@ -349,7 +349,7 @@ def main(args):
             export=f"SAMPLEID={sampleid},OUTPUT_DIR={output_dir}",
             output_dir=output_dir,
             job_name="ERASE-BAM",
-            dependency=f"{convert_cram_job}:{convert_cram_job_2}"
+            dependency=f"{convert_cram_job}:{convert_cram_job_2}:{mosdepth_job}"
         )
     if erase_bam_job:
       log_message(f"ERASE-BAM job submitted with ID: {erase_bam_job}")
@@ -366,7 +366,7 @@ def main(args):
             export=f"SAMPLEID={sampleid},INPUT_DIR={input_dir},OUTPUT_DIR={output_dir}",
             output_dir=output_dir,
             job_name="MultiQC",
-            dependency=convert_cram_job
+            dependency=f"{mosdepth_job}"
         )
     if multiqc_job:
       log_message(f"MultiQC job submitted with ID: {multiqc_job}")
