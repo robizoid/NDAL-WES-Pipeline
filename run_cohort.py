@@ -1,4 +1,5 @@
 import os
+import sys
 import time
 import subprocess
 import argparse
@@ -49,9 +50,6 @@ def run_pipeline_for_cohort(tsv_file, config):
             sample=sampleid,
             targets=targets
         )
-
-        # Run the pipeline
-        job_id = main(args)
 
         # Run the pipeline
         last_job_id = main(args)
