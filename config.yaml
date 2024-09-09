@@ -14,7 +14,9 @@ gatk_ressources:
 exomes_kits:
   grch38:
     sureselectv6: "/kuttam_fg/refdata/robin/references/exome_kits/grch38/S07604514_hg38/S07604514_Covered.bed"
+    sureselectv5: "/kuttam_fg/refdata/robin/references/exome_kits/grch38/agilent_sureselect_v5_S04380110_hg38/S04380110_Covered.bed"
     nextera: "/kuttam_fg/refdata/robin/references/exome_kits/grch38/nextera_targets.hg38.lifted.bed"
+    novogene: "/kuttam_fg/refdata/robin/references/exome_kits/grch38/idt_capture_novogene.grch38.bed"
     
 modules_resources:
   module:
