@@ -375,7 +375,7 @@ def main(args):
 
     log_message("Pipeline submission finished")
     
-    last_job_id = multiqc_job
+    last_job_id = bam_filter_job
     
     return last_job_id
     
