@@ -13,19 +13,19 @@ To set up the conda environment for the pipeline, follow these steps:
 1. Clone the repository:
    ```bash
    git clone https://github.com/robizoid/NDAL-WES-Pipeline.git
-   cd NDAL-WES-Pipeline
+   cd NDAL-WES-Pipeline```
 
 2. Create `conda` environment :
   ```bash
-  conda env create -f environment.yml
+  conda env create -f environment.yml```
 
 3. Activate `conda` environment:
   ```bash
-  conda activate genomics_pipeline
+  conda activate genomics_pipeline```
 
 4. Test installation:
 ```bash
-python main.py --help
+python main.py --help```
 
 Should return
 ```bash
@@ -41,6 +41,6 @@ optional arguments:
   --read1 READ1        Path to read 1 fastq file
   --read2 READ2        Path to read 2 fastq file
   --sample SAMPLE      Sample ID
-  --targets TARGETS    Exome Kits [sureselectv6, nextera]
+  --targets TARGETS    Exome Kits [sureselectv6, nextera]```
 
 ## Usage
